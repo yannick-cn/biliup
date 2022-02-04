@@ -32,7 +32,7 @@ ENV TZ=Asia/Shanghai
 #RUN cd /opt \
 #    && pip3 install -r requirements.txt
 #USER webdriver
-RUN pip3 install git+https://github.com/ForgQi/bilibiliupload.git
+RUN pip3 install git+https://github.com/Heporis/biliup.git
 
 #COPY common /opt/common
 #COPY engine /opt/engine
