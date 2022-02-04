@@ -1,4 +1,4 @@
-FROM jrottenberg/ffmpeg
+FROM ubuntu
 VOLUME /opt
 RUN export DEBIAN_FRONTEND=noninteractive \
   && apt-get update \
@@ -6,40 +6,12 @@ RUN export DEBIAN_FRONTEND=noninteractive \
   && ln -fs /usr/share/zoneinfo/${TZ} /etc/localtime \
   && echo ${TZ} > /etc/timezone \
   && dpkg-reconfigure --frontend noninteractive tzdata \
-  && apt install build-essential -y \
-  && apt install libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev -y \
-  && apt install wget -y \
-  && apt install openssl -y \
   && apt install curl -y \
-  && apt install libsqlite3-dev -y \
-  && wget https://www.python.org/ftp/python/3.7.3/Python-3.7.3.tgz \
-  && tar -xvf Python-3.7.3.tgz \
-  && cd Python-3.7.3 \
-  && ./configure --enable-loadable-sqlite-extensions \
-  && make \
-  && make install \
-  && ln -s /usr/local/bin/pip3 /usr/bin/pip3 \
-  && ln -s /usr/local/bin/python3 /usr/bin/python3 \
-#  && apt-get install -y python3-pip \
+  && apt install ffmpeg -y \
+  && apt install -y python3-pip \
   && apt-get install -y git \
   && apt-get install -y zip \
-  && curl -fsSL https://deb.nodesource.com/setup_14.x | bash - \
-  && apt-get install -y nodejs \
-#  && apt-get install -y unzip \
-  && \
-  DL=https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
-  && curl -sL "$DL" > /tmp/chrome.deb \
-  && apt install --no-install-recommends --no-install-suggests -y \
-    /tmp/chrome.deb \
-  && CHROMIUM_FLAGS='--no-sandbox --disable-dev-shm-usage' \
-  # Patch Chrome launch script and append CHROMIUM_FLAGS to the last line:
-  && sed -i '${s/$/'" $CHROMIUM_FLAGS"'/}' /opt/google/chrome/google-chrome \
-  && BASE_URL=https://chromedriver.storage.googleapis.com \
-  && VERSION=$(curl -sL "$BASE_URL/LATEST_RELEASE") \
-  && curl -sL "$BASE_URL/$VERSION/chromedriver_linux64.zip" -o /tmp/driver.zip \
-  && unzip /tmp/driver.zip \
-  && chmod 755 chromedriver \
-  && mv chromedriver /usr/local/bin/ \
+  && pip install quickjs \
   && apt-get install -y locales \
   && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 \
   # Remove obsolete files:
@@ -60,7 +32,7 @@ ENV TZ=Asia/Shanghai
 #RUN cd /opt \
 #    && pip3 install -r requirements.txt
 #USER webdriver
-RUN pip3 install git+https://github.com/Heporis/biliup.git
+RUN pip3 install git+https://github.com/ForgQi/bilibiliupload.git
 
 #COPY common /opt/common
 #COPY engine /opt/engine

@@ -29,7 +29,7 @@ class BiliWeb(UploadBase):
                  lines='AUTO', threads=3, tid=122, tags=None, cover_path=None, description=''):
         super().__init__(principal, data, persistence_path='bili.cookie', postprocessor=postprocessor)
         if tags is None:
-            tags = ['星际争霸2', '电子竞技']
+            tags = []
         self.user = user
         self.lines = lines
         self.submit_api = submit_api
@@ -517,6 +517,7 @@ class Data:
 
     def set_tag(self, tag: list):
         """设置标签，tag为数组"""
+        tag.append('biliup')
         self.dynamic = f"#{'##'.join(tag)}#"
         self.tag = ','.join(tag)
 
